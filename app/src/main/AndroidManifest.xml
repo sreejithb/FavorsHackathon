@@ -20,6 +20,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ConfirmationActivity"/>
+        <activity android:name=".JobActivity"/>
+        <activity android:name=".PopupActivity"/>
+        <activity android:name=".MyProfile"/>
+        <activity android:name=".Request"/>
         <service android:name=".AmINearbyService"/>
 
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
