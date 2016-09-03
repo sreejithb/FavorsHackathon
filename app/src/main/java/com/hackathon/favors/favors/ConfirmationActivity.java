@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.Pair;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -22,17 +23,21 @@ import java.util.List;
  */
 public class ConfirmationActivity extends AppCompatActivity implements AsyncResponse{
     String jobID;
+    private static final String TAG = ConfirmationActivity.class.getSimpleName();
+
+    @Override
+    public void processResultItem(GroceryListWithRating groceryListResult) {
+        //Log.d(TAG, "HELLO WORLD");
+    }
 
     @Override
     public void processResult(String result) {
-        //TextView textView = (TextView)findViewById(R.id.textView2);
-        //textView.setText(result);
+        Log.d(TAG, result);
     }
 
     @Override
     public void processResultList(List<GroceryListWithRating> gListResult) {
-        //TextView textView = (TextView)findViewById(R.id.textView2);
-        //textView.setText(gListResult.toString());
+        Log.d(TAG, gListResult.toString());
     }
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +52,8 @@ public class ConfirmationActivity extends AppCompatActivity implements AsyncResp
         callBackEndTask.setAsyncResponse(this);
         callBackEndTask.execute(new Pair<Context, String[]>(this, subparams));
 
-        //TODO redirects user to profile page instead of JobActivity Page
         Intent i = new Intent(getApplicationContext(),JobActivity.class);
+        //TODO redirects user to profile page instead of JobActivity Page
         startActivity(i);
     }
 
@@ -56,14 +61,17 @@ public class ConfirmationActivity extends AppCompatActivity implements AsyncResp
         super.onResume();
 
         //DEBUG
-        jobID = "123";
+        jobID = "1";
 
         if(getIntent().hasExtra("jobID")) {
             jobID = getIntent().getStringExtra("jobID");
         }
 
         //TODO PULL DATA FROM SERVER GIVEN A JOB ID
-
+        String[] subparams = {FunctionDirectory.GETJOBINFO, jobID};
+        final CallBackEndTask callBackEndTask = new CallBackEndTask();
+        callBackEndTask.setAsyncResponse(this);
+        callBackEndTask.execute(new Pair<Context, String[]>(this, subparams));
 
         ArrayList<String> item_list = new ArrayList<String>(Arrays.asList("Rice", "Wholemeal bread", "Eggs", "Muffins", "a", "b", "c", "d", "e", "f", "g", "h", "i"));
         ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, item_list);

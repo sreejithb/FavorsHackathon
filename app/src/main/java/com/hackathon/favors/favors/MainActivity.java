@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Intent i= new Intent(this, AmINearbyService.class);
-// potentially add data to the intent
-        this.startService(i);
+        // potentially add data to the intent
+       // this.startService(i);
     }
 
     @Override
