@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"zRMgE0l9nVDW4S28VYYcYQF9UW4/LHOnYObwaoQEs7ospKnbJKYH7CQ\"",
+ "etag": "\"zRMgE0l9nVDW4S28VYYcYQF9UW4/ZpzMJr3t7uk7arZkAeCHuK8gUOM\"",
  "discoveryVersion": "v1",
  "id": "myApi:v2",
  "name": "myApi",
@@ -141,6 +141,27 @@
   }
  },
  "methods": {
+  "amINearby": {
+   "id": "myApi.amINearby",
+   "path": "amINearby/{fbid}",
+   "httpMethod": "POST",
+   "parameters": {
+    "fbid": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "fbid"
+   ],
+   "response": {
+    "$ref": "MyBean"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
   "getUserStat": {
    "id": "myApi.getUserStat",
    "path": "mybean/{fbid}",
@@ -157,6 +178,28 @@
    ],
    "response": {
     "$ref": "MyBean"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "getjobInfo": {
+   "id": "myApi.getjobInfo",
+   "path": "grocerylistwithrating/{jobid}",
+   "httpMethod": "GET",
+   "parameters": {
+    "jobid": {
+     "type": "integer",
+     "required": true,
+     "format": "int32",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "jobid"
+   ],
+   "response": {
+    "$ref": "GroceryListWithRating"
    },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
@@ -306,6 +349,28 @@
    },
    "parameterOrder": [
     "name"
+   ],
+   "response": {
+    "$ref": "MyBean"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "youAreNearby": {
+   "id": "myApi.youAreNearby",
+   "path": "youAreNearby/{nearbystat}",
+   "httpMethod": "POST",
+   "parameters": {
+    "nearbystat": {
+     "type": "integer",
+     "required": true,
+     "format": "int32",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "nearbystat"
    ],
    "response": {
     "$ref": "MyBean"
