@@ -3,6 +3,7 @@ package com.hackathon.favors.favors;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.telecom.Call;
+import android.util.Log;
 import android.util.Pair;
 import android.widget.Toast;
 
@@ -33,7 +34,7 @@ class CallBackEndTask extends AsyncTask<Pair<Context, String[]>, Void, String> {
     private List<GroceryListWithRating> gListResult;
     ArrayList<GroceryListWithRating> items;
     private GroceryListWithRating groceryListResult;
-
+    String deb = "AMI";
     public AsyncResponse getAsyncResponse() {
         return asyncResponse;
     }
@@ -47,6 +48,7 @@ class CallBackEndTask extends AsyncTask<Pair<Context, String[]>, Void, String> {
 
     @Override
     protected String doInBackground(Pair<Context, String[]>... params) {
+        Log.d(deb,"Inside doinbg");
         if(myApiService == null) {  // Only do this once
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
