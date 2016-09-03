@@ -60,11 +60,12 @@ public class JobActivity extends AppCompatActivity implements AsyncResponse{
         callBackEndTask.execute(new Pair<Context, String[]>(this, subparams));
 
         //TODO: REDIRECT BACK TO PROFILE INSTEAD OF CONFIRMATION
-        Intent i = new Intent(getApplicationContext(), ConfirmationActivity.class);
+        Intent i = new Intent(getApplicationContext(), MyProfile.class);
         i.putExtra("jobID", jobID);
         i.putExtra("Items", item_list);
+        i.putExtra("userID", userID);
+        i.putExtra("Method", "Job");
         startActivity(i);
-
     }
 
     protected void deliverItems(View v){

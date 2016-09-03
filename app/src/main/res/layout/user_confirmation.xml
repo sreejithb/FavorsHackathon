@@ -10,16 +10,12 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="dName"
         android:id="@+id/deliverName"
-        android:layout_weight="0.43" />
+        android:layout_weight="0.05" /><![CDATA[
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="388dp"
-        android:id="@+id/itemList"
-        android:layout_gravity="right"
-        android:layout_weight="0.43" />
-        android:layout_width="fill_parent"
+    android:layout_width="fill_parent"
         android:layout_height="wrap_content">
+
+    ]]>
 
     <Button
         android:layout_width="wrap_content"
