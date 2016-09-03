@@ -19,24 +19,25 @@ import java.util.List;
 /**
  * Created by sreejith on 3/9/16.
  */
-public class PopupActivity  extends AppCompatActivity implements AsyncResponse{
+public class PopupActivity  extends AppCompatActivity implements AsyncResponse, AdapterView.OnItemClickListener{
     FavorsAdapter adapter;
     ArrayList<Job> listOfJobs;
     ListView listView;
-    int userID;
+    //int userID;
+    String userID;// = "Kenneth";
 
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popup);
-
-
+        //userID = getIntent().getExtras().getString("userID");
+        //Log.d("UID:",userID);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        this.userID = getIntent().getIntExtra("userID",1);
+        //this.userID = getIntent().getStringExtra("userID");
         listView = (ListView) findViewById(R.id.listView);
         listOfJobs = new ArrayList<>();
 
@@ -67,16 +68,21 @@ public class PopupActivity  extends AppCompatActivity implements AsyncResponse{
 
         adapter = new FavorsAdapter(this, 3,listOfJobs);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        Log.d("UID:","here");
+        listView.setOnItemClickListener(this);
+        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 // Call for the next Job page
-                Log.d(""+ position,"Opening Job");
+                Log.d(""+ position,"Opening Job1");
                 Intent intent = new Intent(getApplicationContext(), JobActivity.class);
                 Job job = adapter.getItem(position);
                 intent.putExtra("Owner",job.getOwner());
                 intent.putExtra("jobID", job.getJobid());
-                intent.putExtra("userID", getIntent().getIntExtra("userID", 1));
+                Log.d("UID:","here2");
+                //String uid = getIntent().getStringExtra("userID");
+                Log.d("UID:",userID);
+                intent.putExtra("userID", userID);
                 intent.putExtra("Address", job.getAddress());
                 intent.putExtra("Status", job.getStatus());
                 intent.putExtra("Items", job.getItems());
@@ -85,10 +91,37 @@ public class PopupActivity  extends AppCompatActivity implements AsyncResponse{
                 startActivity(intent);
             }
         });
+        */
     }
 
     @Override
     public void processResultItem(GroceryListWithRating groceryListResult) {
 
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        //Log.d(""+ position,"Opening Job1");
+        Intent intent = new Intent(getApplicationContext(), JobActivity.class);
+        Job job = adapter.getItem(i);
+        intent.putExtra("Owner",job.getOwner());
+        intent.putExtra("jobID", job.getJobid());
+        Log.d("UID:","here2");
+        if(getIntent().getExtras()==null){
+            Log.d("UID", getIntent().toString());
+            Log.d("UID","Bundle is null");
+        }
+        String uid = getIntent().getExtras().getString("userID");
+        if (userID == null){
+            Log.d("UID:","is null");
+        }
+        //Log.d("UID:",userID);
+        intent.putExtra("userID", uid);
+        intent.putExtra("Address", job.getAddress());
+        intent.putExtra("Status", job.getStatus());
+        intent.putExtra("Items", job.getItems());
+        intent.putExtra("Nearby", job.getNearby());
+        intent.putExtra("Rep", job.getRep());
+        startActivity(intent);
     }
 }

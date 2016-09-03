@@ -19,7 +19,7 @@
 package com.hackathon.favors.myapplication.backend.myApi.model;
 
 /**
- * Model definition for MyBean.
+ * Model definition for GroceryListWithRating.
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the myApi. For a detailed explanation see:
@@ -29,37 +29,58 @@ package com.hackathon.favors.myapplication.backend.myApi.model;
  * @author Google, Inc.
  */
 @SuppressWarnings("javadoc")
-public final class MyBean extends com.google.api.client.json.GenericJson {
+public final class GroceryListWithRating extends com.google.api.client.json.GenericJson {
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.String data;
+  private GroceryList groceryList;
+
+  /**
+   * The value may be {@code null}.
+   */
+  @com.google.api.client.util.Key
+  private java.lang.Integer userstat;
 
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.String getData() {
-    return data;
+  public GroceryList getGroceryList() {
+    return groceryList;
   }
 
   /**
-   * @param data data or {@code null} for none
+   * @param groceryList groceryList or {@code null} for none
    */
-  public MyBean setData(java.lang.String data) {
-    this.data = data;
+  public GroceryListWithRating setGroceryList(GroceryList groceryList) {
+    this.groceryList = groceryList;
+    return this;
+  }
+
+  /**
+   * @return value or {@code null} for none
+   */
+  public java.lang.Integer getUserstat() {
+    return userstat;
+  }
+
+  /**
+   * @param userstat userstat or {@code null} for none
+   */
+  public GroceryListWithRating setUserstat(java.lang.Integer userstat) {
+    this.userstat = userstat;
     return this;
   }
 
   @Override
-  public MyBean set(String fieldName, Object value) {
-    return (MyBean) super.set(fieldName, value);
+  public GroceryListWithRating set(String fieldName, Object value) {
+    return (GroceryListWithRating) super.set(fieldName, value);
   }
 
   @Override
-  public MyBean clone() {
-    return (MyBean) super.clone();
+  public GroceryListWithRating clone() {
+    return (GroceryListWithRating) super.clone();
   }
 
 }

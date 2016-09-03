@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Favors</string>
-    <string name="facebook_app_id">1143755655682938</string>
+    <string name="facebook_app_id">1130087740418637</string>
+    <string name="sharedprefname">com.hackathon.favors.favors</string>
+    <string name="userid">userID</string>
 </resources>

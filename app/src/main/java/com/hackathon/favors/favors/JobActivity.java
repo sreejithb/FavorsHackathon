@@ -29,9 +29,10 @@ import java.util.List;
  */
 public class JobActivity extends AppCompatActivity implements AsyncResponse{
     private static final String TAG = JobActivity.class.getSimpleName();
-    String jobID;
+    int jobID;
     String userID;
     ArrayList<String> item_list;
+    final String deb = "JOBACT";
 
     @Override
     public void processResultItem(GroceryListWithRating groceryListResult) {
@@ -51,10 +52,16 @@ public class JobActivity extends AppCompatActivity implements AsyncResponse{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_job);
+        Log.d(deb,"jobid" + getIntent().getExtras().getInt("jobID"));
     }
 
     protected void acceptJob(View v){
-        String[] subparams = {FunctionDirectory.SENDACCEPTJOB, jobID, userID};
+        //Log.d("JOB:", jobID);
+        //Log.d("USER:", userID);
+
+        //jobID = "1";
+        //userID = "KENNETH";
+        String[] subparams = {FunctionDirectory.SENDACCEPTJOB, Integer.toString(jobID), userID};
         final CallBackEndTask callBackEndTask = new CallBackEndTask();
         callBackEndTask.setAsyncResponse(this);
         callBackEndTask.execute(new Pair<Context, String[]>(this, subparams));
@@ -69,7 +76,7 @@ public class JobActivity extends AppCompatActivity implements AsyncResponse{
     }
 
     protected void deliverItems(View v){
-        String[] subparams = {FunctionDirectory.SENDHANDOVER, jobID, userID};
+        String[] subparams = {FunctionDirectory.SENDHANDOVER, Integer.toString(jobID), userID};
         final CallBackEndTask callBackEndTask = new CallBackEndTask();
         callBackEndTask.setAsyncResponse(this);
         callBackEndTask.execute(new Pair<Context, String[]>(this, subparams));
@@ -99,10 +106,11 @@ public class JobActivity extends AppCompatActivity implements AsyncResponse{
         }
 
         if(getIntent().hasExtra("jobID")) {
-            jobID = getIntent().getStringExtra("jobID");
+           //jobID = getIntent().getStringExtra("jobID");
+            jobID = getIntent().getExtras().getInt("jobID");
         }
         if(getIntent().hasExtra("userID")) {
-            userID = getIntent().getStringExtra("userID");
+            userID = getIntent().getExtras().getString("userID");
         }
         if(getIntent().hasExtra("Owner")) {
             TextView pName = (TextView) findViewById(R.id.personName);

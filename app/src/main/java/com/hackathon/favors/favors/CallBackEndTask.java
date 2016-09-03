@@ -91,6 +91,8 @@ class CallBackEndTask extends AsyncTask<Pair<Context, String[]>, Void, String> {
                 case FunctionDirectory.SENDACCEPTJOB:
                     int jobid = Integer.parseInt(subparams[1]);
                     delivererid = subparams[2];
+                    Log.d("SEND:", delivererid);
+                    Log.d("SEND:", ""+jobid);
                     return myApiService.postAcceptJob(jobid, delivererid).execute().toPrettyString();
                 case FunctionDirectory.SENDHANDOVER:
                     jobid = Integer.parseInt(subparams[1]);
