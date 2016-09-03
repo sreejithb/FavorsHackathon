@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         EditText editText= (EditText) findViewById(R.id.hackathonet);
-        editText.setText("THON");
+        editText.setText("HACKTHON");
 
     }
 }
