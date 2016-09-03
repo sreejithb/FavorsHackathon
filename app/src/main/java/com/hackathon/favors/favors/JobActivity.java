@@ -52,16 +52,17 @@ public class JobActivity extends AppCompatActivity implements AsyncResponse{
     }
 
     protected void acceptJob(View v){
-        
         String[] subparams = {FunctionDirectory.SENDACCEPTJOB, jobID, userID};
         final CallBackEndTask callBackEndTask = new CallBackEndTask();
         callBackEndTask.setAsyncResponse(this);
         callBackEndTask.execute(new Pair<Context, String[]>(this, subparams));
-
     }
 
     protected void deliverItems(View v){
-        //TODO: Send to server jobID
+        String[] subparams = {FunctionDirectory.SENDHANDOVER, jobID, userID};
+        final CallBackEndTask callBackEndTask = new CallBackEndTask();
+        callBackEndTask.setAsyncResponse(this);
+        callBackEndTask.execute(new Pair<Context, String[]>(this, subparams));
     }
 
     protected void onResume(){
