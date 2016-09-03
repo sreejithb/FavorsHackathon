@@ -10,6 +10,7 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import javax.inject.Named;
@@ -27,10 +28,12 @@ import javax.inject.Named;
 public class MyEndpoint {
 
     GrocerySampler grocerySampler = new GrocerySampler();
+    int jobid = 10;
     /** A simple endpoint method that takes a name and says Hi back */
 
     @ApiMethod(name = "sayHi")
     public MyBean sayHi(@Named("name") String name) {
+        //grocerySampler = new GrocerySampler();
         MyBean response = new MyBean();
         response.setData("Hi, " + name);
         return response;
@@ -38,43 +41,53 @@ public class MyEndpoint {
 
 
     @ApiMethod(name = "postGroceryList")
-    public MyBean postList(@Named("fbid") String fbid,GroceryList groceryList) {
+    public MyBean postGroceryList(@Named("ownerid") String ownerid,GroceryList groceryList) {
         grocerySampler.populate();
+        groceryList.setJobid(jobid++);
+        groceryList.setOWner(ownerid);
         grocerySampler.addNewJob(groceryList);
         MyBean response = new MyBean();
-        response.setData("Hi, " + groceryList.getItems());
+        response.setData("Hi, " + groceryList.getOwner());
         return response;
     }
 
     @ApiMethod(name = "postNearby")
-    public ArrayList<GroceryListWithRating> postNearby(@Named("fbid") String fbid,@Named("nearby")int nearby) {
+    public ArrayList<GroceryListWithRating> postNearby(@Named("fbid") String fbid, @Named("nearby")int nearby) {
+        //GrocerySampler grocerySampler2 = new GrocerySampler();
+        //grocerySampler2.populate();
         grocerySampler.populate();
         ArrayList<GroceryListWithRating> nearbylist = grocerySampler.getNearby(nearby);
+        //ArrayList<GroceryListWithRating> nearbylist = grocerySampler2.getGroceryLists();
+        MyBean response = new MyBean();
+        response.setData("Hi, " + nearbylist.size());
+        //return response;
         return nearbylist;
     }
 
     @ApiMethod(name = "postAcceptJob")
-    public MyBean postAccept(@Named("jobid") int jobid,@Named("delid")String delid) {
+    public GroceryListWithRating postAccept(@Named("jobid") int jobid,@Named("delid")String delid) {
         grocerySampler.updatejob(jobid,delid, DeliveryStatuses.ONTHEWAY);
-        MyBean response = new MyBean();
-        response.setData("Hi");
-        return response;
+        return grocerySampler.getJob(jobid);
     }
 
     @ApiMethod(name = "postHandedOver")
-    public MyBean postHandedOver(@Named("jobid") int jobid,@Named("delid")String delid) {
+    public GroceryListWithRating postHandedOver(@Named("jobid") int jobid,@Named("delid")String delid) {
         grocerySampler.updatejob(jobid,delid, DeliveryStatuses.HANDEDOVER);
-        MyBean response = new MyBean();
-        response.setData("Hi");
-        return response;
+        return grocerySampler.getJob(jobid);
     }
 
     @ApiMethod(name = "postDelivered")
-    public MyBean postDelivered(@Named("jobid") int jobid) {
+    public GroceryListWithRating postDelivered(@Named("jobid") int jobid) {
         grocerySampler.donejob(jobid);
-        MyBean response = new MyBean();
-        response.setData("Hi");
-        return response;
+        return grocerySampler.getJob(jobid);
+    }
+
+    @ApiMethod(name="getUserStat")
+    public MyBean getUserStat(@Named("fbid") String fbid){
+        int userstat = grocerySampler.getUserStat(fbid);
+        MyBean myBean = new MyBean();
+        myBean.setData("UserStat: " + Integer.toString(userstat));
+        return myBean;
     }
 
 

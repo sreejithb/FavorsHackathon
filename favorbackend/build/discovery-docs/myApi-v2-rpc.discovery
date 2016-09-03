@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"zRMgE0l9nVDW4S28VYYcYQF9UW4/AAZXiaxBnpRL7_1EDxMufw3D7lA\"",
+ "etag": "\"zRMgE0l9nVDW4S28VYYcYQF9UW4/LHOnYObwaoQEs7ospKnbJKYH7CQ\"",
  "discoveryVersion": "v1",
  "id": "myApi:v2",
  "name": "myApi",
@@ -75,11 +75,21 @@
    "id": "GroceryList",
    "type": "object",
    "properties": {
+    "address": {
+     "type": "string"
+    },
+    "deliverer": {
+     "type": "string"
+    },
     "items": {
      "type": "array",
      "items": {
       "type": "string"
      }
+    },
+    "jobid": {
+     "type": "integer",
+     "format": "int32"
     },
     "nearby": {
      "type": "integer",
@@ -87,17 +97,33 @@
     },
     "owner": {
      "type": "string"
+    },
+    "status": {
+     "type": "string"
     }
    }
   },
-  "GroceryListCollection": {
-   "id": "GroceryListCollection",
+  "GroceryListWithRating": {
+   "id": "GroceryListWithRating",
+   "type": "object",
+   "properties": {
+    "groceryList": {
+     "$ref": "GroceryList"
+    },
+    "userstat": {
+     "type": "integer",
+     "format": "int32"
+    }
+   }
+  },
+  "GroceryListWithRatingCollection": {
+   "id": "GroceryListWithRatingCollection",
    "type": "object",
    "properties": {
     "items": {
      "type": "array",
      "items": {
-      "$ref": "GroceryList"
+      "$ref": "GroceryListWithRating"
      }
     }
    }
@@ -113,10 +139,72 @@
   }
  },
  "methods": {
+  "myApi.getUserStat": {
+   "id": "myApi.getUserStat",
+   "allowGet": true,
+   "parameters": {
+    "fbid": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "fbid"
+   ],
+   "returns": {
+    "$ref": "MyBean"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "myApi.postAcceptJob": {
+   "id": "myApi.postAcceptJob",
+   "parameters": {
+    "delid": {
+     "type": "string",
+     "required": true
+    },
+    "jobid": {
+     "type": "integer",
+     "required": true,
+     "format": "int32"
+    }
+   },
+   "parameterOrder": [
+    "jobid",
+    "delid"
+   ],
+   "returns": {
+    "$ref": "GroceryListWithRating"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "myApi.postDelivered": {
+   "id": "myApi.postDelivered",
+   "parameters": {
+    "jobid": {
+     "type": "integer",
+     "required": true,
+     "format": "int32"
+    }
+   },
+   "parameterOrder": [
+    "jobid"
+   ],
+   "returns": {
+    "$ref": "GroceryListWithRating"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
   "myApi.postGroceryList": {
    "id": "myApi.postGroceryList",
    "parameters": {
-    "fbid": {
+    "ownerid": {
      "type": "string",
      "required": true
     },
@@ -126,10 +214,34 @@
    },
    "parameterOrder": [
     "resource",
-    "fbid"
+    "ownerid"
    ],
    "returns": {
     "$ref": "MyBean"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "myApi.postHandedOver": {
+   "id": "myApi.postHandedOver",
+   "parameters": {
+    "delid": {
+     "type": "string",
+     "required": true
+    },
+    "jobid": {
+     "type": "integer",
+     "required": true,
+     "format": "int32"
+    }
+   },
+   "parameterOrder": [
+    "jobid",
+    "delid"
+   ],
+   "returns": {
+    "$ref": "GroceryListWithRating"
    },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
@@ -153,7 +265,7 @@
     "nearby"
    ],
    "returns": {
-    "$ref": "GroceryListCollection"
+    "$ref": "GroceryListWithRatingCollection"
    },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"

@@ -20,6 +20,11 @@ public class GroceryList {
         this.nearby = nearby;
         this.address = address;
     }
+    public GroceryList(ArrayList<String> items, int nearby, String address){
+        this.items = items;
+        this.nearby = nearby;
+        this.address = address;
+    }
 
     int jobid;
 

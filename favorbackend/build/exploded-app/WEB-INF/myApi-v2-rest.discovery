@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"zRMgE0l9nVDW4S28VYYcYQF9UW4/AAZXiaxBnpRL7_1EDxMufw3D7lA\"",
+ "etag": "\"zRMgE0l9nVDW4S28VYYcYQF9UW4/LHOnYObwaoQEs7ospKnbJKYH7CQ\"",
  "discoveryVersion": "v1",
  "id": "myApi:v2",
  "name": "myApi",
@@ -77,11 +77,21 @@
    "id": "GroceryList",
    "type": "object",
    "properties": {
+    "address": {
+     "type": "string"
+    },
+    "deliverer": {
+     "type": "string"
+    },
     "items": {
      "type": "array",
      "items": {
       "type": "string"
      }
+    },
+    "jobid": {
+     "type": "integer",
+     "format": "int32"
     },
     "nearby": {
      "type": "integer",
@@ -89,17 +99,33 @@
     },
     "owner": {
      "type": "string"
+    },
+    "status": {
+     "type": "string"
     }
    }
   },
-  "GroceryListCollection": {
-   "id": "GroceryListCollection",
+  "GroceryListWithRating": {
+   "id": "GroceryListWithRating",
+   "type": "object",
+   "properties": {
+    "groceryList": {
+     "$ref": "GroceryList"
+    },
+    "userstat": {
+     "type": "integer",
+     "format": "int32"
+    }
+   }
+  },
+  "GroceryListWithRatingCollection": {
+   "id": "GroceryListWithRatingCollection",
    "type": "object",
    "properties": {
     "items": {
      "type": "array",
      "items": {
-      "$ref": "GroceryList"
+      "$ref": "GroceryListWithRating"
      }
     }
    }
@@ -115,10 +141,10 @@
   }
  },
  "methods": {
-  "postGroceryList": {
-   "id": "myApi.postGroceryList",
-   "path": "postList/{fbid}",
-   "httpMethod": "POST",
+  "getUserStat": {
+   "id": "myApi.getUserStat",
+   "path": "mybean/{fbid}",
+   "httpMethod": "GET",
    "parameters": {
     "fbid": {
      "type": "string",
@@ -129,12 +155,111 @@
    "parameterOrder": [
     "fbid"
    ],
+   "response": {
+    "$ref": "MyBean"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "postAcceptJob": {
+   "id": "myApi.postAcceptJob",
+   "path": "postAccept/{jobid}/{delid}",
+   "httpMethod": "POST",
+   "parameters": {
+    "delid": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    },
+    "jobid": {
+     "type": "integer",
+     "required": true,
+     "format": "int32",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "jobid",
+    "delid"
+   ],
+   "response": {
+    "$ref": "GroceryListWithRating"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "postDelivered": {
+   "id": "myApi.postDelivered",
+   "path": "postDelivered/{jobid}",
+   "httpMethod": "POST",
+   "parameters": {
+    "jobid": {
+     "type": "integer",
+     "required": true,
+     "format": "int32",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "jobid"
+   ],
+   "response": {
+    "$ref": "GroceryListWithRating"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "postGroceryList": {
+   "id": "myApi.postGroceryList",
+   "path": "postGroceryList/{ownerid}",
+   "httpMethod": "POST",
+   "parameters": {
+    "ownerid": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "ownerid"
+   ],
    "request": {
     "$ref": "GroceryList",
     "parameterName": "resource"
    },
    "response": {
     "$ref": "MyBean"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "postHandedOver": {
+   "id": "myApi.postHandedOver",
+   "path": "postHandedOver/{jobid}/{delid}",
+   "httpMethod": "POST",
+   "parameters": {
+    "delid": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    },
+    "jobid": {
+     "type": "integer",
+     "required": true,
+     "format": "int32",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "jobid",
+    "delid"
+   ],
+   "response": {
+    "$ref": "GroceryListWithRating"
    },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
@@ -162,7 +287,7 @@
     "nearby"
    ],
    "response": {
-    "$ref": "GroceryListCollection"
+    "$ref": "GroceryListWithRatingCollection"
    },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"

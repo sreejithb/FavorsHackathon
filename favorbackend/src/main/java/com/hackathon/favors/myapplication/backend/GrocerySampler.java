@@ -8,15 +8,24 @@ import java.util.Random;
  * Created by sreejith on 3/9/16.
  */
 public class GrocerySampler {
+    public ArrayList<GroceryListWithRating> getGroceryLists() {
+        return groceryLists;
+    }
+
+    public void setGroceryLists(ArrayList<GroceryListWithRating> groceryLists) {
+        this.groceryLists = groceryLists;
+    }
+
     ArrayList<GroceryListWithRating> groceryLists = new ArrayList<GroceryListWithRating>();
     Hashtable<String,Integer> userstats = new Hashtable<String, Integer>();
 
     private void populateUserStats(){
-        for (GroceryListWithRating g:groceryLists){
-            if(!userstats.contains(g.getGroceryList().getOwner())){
-                userstats.put(g.getGroceryList().getOwner(), new Random().nextInt(5));
-            }
-        }
+        userstats.put("1234",2);
+        userstats.put("5678",3);
+        userstats.put("abcd",1);
+        userstats.put("efgh",4);
+        userstats.put("ijkl",4);
+        userstats.put("mnop",3);
     }
     private void populateDummy(){
         GroceryList temp = new GroceryList(1,"1234",new ArrayList<String>() {{
@@ -61,8 +70,6 @@ public class GrocerySampler {
         }},0,"test");
         groceryLists.add(new GroceryListWithRating(temp,userstats.get(temp.getOwner())));
 
-        populateUserStats();
-
     }
 
     public ArrayList<GroceryListWithRating> getNearby(int nearbyid){
@@ -76,10 +83,12 @@ public class GrocerySampler {
     }
 
     public void populate(){
-        if (!groceryLists.isEmpty()){
+        if (groceryLists.isEmpty()){
+            populateUserStats();
             populateDummy();
         }
     }
+
 
     public void addNewJob(GroceryList groceryList){
         if (!userstats.contains(groceryList.getOwner())){
@@ -94,6 +103,10 @@ public class GrocerySampler {
             if (g.getGroceryList().getJobid()==jobid){
                 g.getGroceryList().setDeliverer(delid);
                 g.getGroceryList().setStatus(status);
+
+                if (!userstats.contains(delid)){
+                    userstats.put(delid,0);
+                }
             }
         }
     }
@@ -105,6 +118,23 @@ public class GrocerySampler {
                 int currentstat = userstats.get(g.getGroceryList().getDeliverer());
                 userstats.put(g.getGroceryList().getDeliverer(),currentstat + 1);
             }
+        }
+    }
+
+    public GroceryListWithRating getJob(int jobid) {
+        for (GroceryListWithRating g:groceryLists){
+            if (g.getGroceryList().getJobid() == jobid){
+                return g;
+            }
+        }
+        return null;
+    }
+
+    public int getUserStat(String fbid) {
+        if (userstats.contains(fbid)){
+            return userstats.get(fbid);
+        }else{
+            return 0;
         }
     }
 }
