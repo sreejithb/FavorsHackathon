@@ -32,6 +32,7 @@ class CallBackEndTask extends AsyncTask<Pair<Context, String[]>, Void, String> {
     private String functionname;
     private List<GroceryListWithRating> gListResult;
     ArrayList<GroceryListWithRating> items;
+    private GroceryListWithRating groceryListResult;
 
     public AsyncResponse getAsyncResponse() {
         return asyncResponse;
@@ -82,9 +83,9 @@ class CallBackEndTask extends AsyncTask<Pair<Context, String[]>, Void, String> {
                 case FunctionDirectory.SENDNEARBY:
                     String delivererid = subparams[1];
                     nearby = Integer.parseInt(subparams[2]);
-                    GroceryListWithRatingCollection res = myApiService.postNearby(delivererid, nearby).execute();
-                    gListResult = res.getItems();
-                    return res.toPrettyString();
+                    GroceryListWithRatingCollection res2 = myApiService.postNearby(delivererid, nearby).execute();
+                    gListResult = res2.getItems();
+                    return res2.toPrettyString();
                 case FunctionDirectory.SENDACCEPTJOB:
                     int jobid = Integer.parseInt(subparams[1]);
                     delivererid = subparams[2];
@@ -99,6 +100,13 @@ class CallBackEndTask extends AsyncTask<Pair<Context, String[]>, Void, String> {
                 case FunctionDirectory.GETUSERSTAT:
                     delivererid = subparams[1];
                     return myApiService.getUserStat(delivererid).execute().getData();
+                case FunctionDirectory.AMINEARBY:
+                    delivererid = subparams[1];
+                    return myApiService.amINearby(delivererid).execute().getData();
+                case FunctionDirectory.GETJOBINFO:
+                    jobid = Integer.parseInt(subparams[1]);
+                    groceryListResult = myApiService.getjobInfo(jobid).execute();
+                    return groceryListResult.toPrettyString();
                 default:
                     return "nothing";
             }
@@ -111,11 +119,14 @@ class CallBackEndTask extends AsyncTask<Pair<Context, String[]>, Void, String> {
     protected void onPostExecute(String result) {
         if (functionname == FunctionDirectory.SENDNEARBY){
             asyncResponse.processResultList(gListResult);
-        }else{
+        }else if(functionname == FunctionDirectory.GETJOBINFO) {
+            asyncResponse.processResultItem(groceryListResult);
+        }
+        else{
             asyncResponse.processResult(result);
         }
 
 
-        Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, result, Toast.LENGTH_LONG).show();
     }
 }

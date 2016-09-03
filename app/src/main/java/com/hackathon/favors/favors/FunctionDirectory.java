@@ -10,4 +10,6 @@ public class FunctionDirectory {
     final static public String SENDHANDOVER = "3";
     final static public String SENDDELIVERED = "4";
     final static public String GETUSERSTAT ="5";
+    final static public String AMINEARBY = "6";
+    final static public String GETJOBINFO = "7";
 }

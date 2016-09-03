@@ -29,6 +29,7 @@ public class MyEndpoint {
 
     GrocerySampler grocerySampler = new GrocerySampler();
     int jobid = 10;
+    int youAreNearby = 0;
     /** A simple endpoint method that takes a name and says Hi back */
 
     @ApiMethod(name = "sayHi")
@@ -87,6 +88,27 @@ public class MyEndpoint {
         int userstat = grocerySampler.getUserStat(fbid);
         MyBean myBean = new MyBean();
         myBean.setData("UserStat: " + Integer.toString(userstat));
+        return myBean;
+    }
+
+    @ApiMethod(name = "amINearby")
+    public MyBean amINearby(@Named("fbid")String fbid){
+        MyBean myBean = new MyBean();
+        myBean.setData(Integer.toString(youAreNearby));
+        return myBean;
+    }
+    @ApiMethod(name = "getjobInfo")
+    public GroceryListWithRating getJobInfo(@Named("jobid")int jobid){
+        GroceryListWithRating g = grocerySampler.getJob(jobid);
+        return g;
+    }
+
+
+    @ApiMethod(name = "youAreNearby")
+    public MyBean youAreNearby(@Named("nearbystat")int nearbystat){
+        youAreNearby = nearbystat;
+        MyBean myBean = new MyBean();
+        myBean.setData(Integer.toString(youAreNearby));
         return myBean;
     }
 
