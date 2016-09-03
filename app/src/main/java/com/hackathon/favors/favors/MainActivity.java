@@ -1,6 +1,7 @@
 package com.hackathon.favors.favors;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Pair;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.facebook.FacebookSdk;
+import com.hackathon.favors.myapplication.backend.myApi.MyApi;
 import com.hackathon.favors.myapplication.backend.myApi.model.GroceryListWithRating;
 
 import java.util.List;
@@ -20,6 +22,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent i= new Intent(this, AmINearbyService.class);
+// potentially add data to the intent
+        this.startService(i);
     }
 
     @Override
@@ -40,6 +45,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void processResultList(List<GroceryListWithRating> gListResult) {
         TextView textView = (TextView)findViewById(R.id.textView2);
         textView.setText(gListResult.toString());
+    }
+
+    @Override
+    public void processResultItem(GroceryListWithRating groceryListResult) {
+
     }
 
     @Override

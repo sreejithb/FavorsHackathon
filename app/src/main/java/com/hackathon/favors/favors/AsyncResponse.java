@@ -11,4 +11,6 @@ public interface AsyncResponse {
     void processResult(String result);
 
     void processResultList(List<GroceryListWithRating> gListResult);
+
+    void processResultItem(GroceryListWithRating groceryListResult);
 }
